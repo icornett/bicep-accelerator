@@ -1,0 +1,40 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0 # Use the ref you want to point at
+    hooks:
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+      - id: check-executables-have-shebangs
+        name: Ensure scripts have shebangs for linux agents
+      - id: check-shebang-scripts-are-executable
+        name: Ensure scripts have +x bit set
+      - id: detect-private-key
+        name: Ensure no private keys get committed
+      - id: check-json
+        name: Check JSON syntax
+      - id: pretty-format-json
+        name: Ensure JSON files are well formatted
+        args: ["--autofix"]
+      - id: check-merge-conflict
+        name: Ensure merge tokens aren't in files
+        args: ["--assume-in-merge"]
+      - id: no-commit-to-branch
+        name: Don't allow direct commit to main
+  - repo: https://github.com/bridgecrewio/checkov.git
+    rev: "2.3.160" # change to tag or sha
+    hooks:
+      - id: checkov
+        name: Run Checkov Security Scan
+        args: ["--framework bicep"]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v3.0.0-alpha.6" # Use the sha / tag you want to point at
+    hooks:
+      - id: prettier
+  # - hooks:
+  #     - id: update-bicep-docs
+  #       name: Update Bicep module documentation
+  #       language: system
+  #       files: ^.+\.bicep$
+  #       entry: |
+  #         pwsh scripts/Create-BicepDocumentation.ps1 -RegistryName cronlinecalcslec101 -TemplatePath
+  #   repo: local
