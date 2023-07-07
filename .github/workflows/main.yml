@@ -25,7 +25,8 @@ jobs:
       - name: Login to ACR
         shell: pwsh
         run: |
-          $credential = [PSCredential]::new("${{secrets.AZURE_CLIENT_ID}}", "${{secrets.AZURE_CLIENT_SECRET}}")
+          $password = ConvertTo-SecureString "${{secrets.AZURE_CLIENT_SECRET}}" -AsPlainText -Force
+          $credential = New-Object System.Management.Automation.PSCredential ("${{secrets.AZURE_CLIENT_ID}}", $password)
           Connect-AzAccount -ServicePrincipal -TenantId -Credential $credential
           Connect-AzContainerRegistry -Name ${{ vars.REGISTRY_NAME }}
 
