@@ -78,7 +78,8 @@
         "zokugun.explicit-folding",
         "1password.vscode-op",
         "bencoleman.armview",
-        "msazurermtools.azurerm-vscode-tools"
+        "msazurermtools.azurerm-vscode-tools",
+        "github.vscode-github-actions"
       ]
     }
   },
