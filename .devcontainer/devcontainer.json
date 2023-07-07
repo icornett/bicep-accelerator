@@ -63,11 +63,9 @@
       "extensions": [
         "microsoft-dciborow.align-bicep",
         "ms-azuretools.vscode-bicep",
-        "msazurermtools.azurerm-vscode-tools",
         "ms-vscode.powershell",
         "vscode-icons-team.vscode-icons",
         "ms-vscode.vscode-node-azure-pack",
-        "ms-azuretools.vscode-apimanagement",
         "editorconfig.editorconfig",
         "equinusocio.vsc-material-theme",
         "yzhang.markdown-all-in-one",
@@ -82,6 +80,11 @@
       ]
     }
   },
+
+  "mounts": [
+    "source=profile,target=/root,type=volume",
+    "target=/root/.vscode-server,type=volume"
+  ],
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   "remoteUser": "root"
