@@ -13,7 +13,7 @@ jobs:
       - name: Get Changed Modules
         id: changes
         run: |
-          echo "::set-output name=templates::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)"
+          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUTConnect-AzContainerRegistryConnect-AzContainerRegistryConnect-AzContainerRegistry
 
   publish:
     runs-on: ubuntu-latest
@@ -25,6 +25,8 @@ jobs:
       - name: Login to ACR
         shell: pwsh
         run: |
+          Import-Module Az.Accounts
+          Import-Module Az.ContainerRegistry
           $password = ConvertTo-SecureString "${{secrets.AZURE_CLIENT_SECRET}}" -AsPlainText -Force
           $credential = New-Object System.Management.Automation.PSCredential ("${{secrets.AZURE_CLIENT_ID}}", $password)
           Connect-AzAccount -ServicePrincipal -TenantId -Credential $credential
