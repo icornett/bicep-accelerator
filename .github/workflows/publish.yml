@@ -1,0 +1,36 @@
+name: PublishModule
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  changedFiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Changed Modules
+        id: changes
+        run: |
+          echo "::set-output name=templates::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)"
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: changedFiles
+    if: ${{needs.changedFiles.outputs.templates}} && github.event.push
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to ACR
+        shell: pwsh
+        run: |
+          $credential = [PSCredential]::new(${{secrets.AZURE_CLIENT_ID}}, ${{secrets.AZURE_CLIENT_SECRET}})
+          Connect-AzAccount -ServicePrincipal -TenantId -Credential $credential
+          Connect-AzContainerRegistry -Name ${{ vars.REGISTRY_NAME }}
+
+      - name: Publish module and documentation
+        shell: pwsh
+        run: |
+          $templates = ${{needs.changedFiles.output.templates}}
+          $templates.GetType()
