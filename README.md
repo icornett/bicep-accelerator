@@ -10,5 +10,6 @@ This code publishes to the Azure Container Registry `slalombicepregistry.azurecr
 flowchart TD
     A[Bicep Repository]-->|publishes to|B
     B[Azure Container Registry]-->|hosts public modules|C
-    C[Module consumed in Bicep Code]
+    C[Module consumed in Bicep Code]-->|deploys|D
+    D[Azure Resources]
 ```
