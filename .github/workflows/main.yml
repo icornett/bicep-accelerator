@@ -15,7 +15,9 @@ jobs:
       - name: Get Changed Modules
         id: changes
         run: |
-          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
+          head=$(git rev-parse HEAD)
+          current=$(git rev-parse $GITHUB_REF)
+          echo "templates=$(git diff --name-only --diff-filter=ACMRT $head $current -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
 
   publish:
     runs-on: ubuntu-latest
@@ -40,7 +42,7 @@ jobs:
       - name: Publish module and documentation
         shell: pwsh
         run: |
-          $templates = ${{needs.changedFiles.outputs.templates}}
+          $templates = ${{needs.changedFiles.output.templates}}
           $templates.GetType()
 
       - name: Upload Documentation to Wiki
