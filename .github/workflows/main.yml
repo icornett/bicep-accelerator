@@ -13,7 +13,7 @@ jobs:
       - name: Get Changed Modules
         id: changes
         run: |
-          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUTConnect-AzContainerRegistryConnect-AzContainerRegistryConnect-AzContainerRegistry
+          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
 
   publish:
     runs-on: ubuntu-latest
