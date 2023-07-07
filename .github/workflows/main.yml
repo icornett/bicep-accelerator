@@ -40,7 +40,7 @@ jobs:
       - name: Publish module and documentation
         shell: pwsh
         run: |
-          $templates = ${{needs.changedFiles.output.templates}}
+          $templates = ${{needs.changedFiles.outputs.templates}}
           $templates.GetType()
 
       - name: Upload Documentation to Wiki
