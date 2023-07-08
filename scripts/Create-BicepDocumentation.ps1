@@ -101,19 +101,19 @@ function Get-CustomTypeContent {
             $definitionDescription = $definitonContent.$_.metadata.description ? $definitionContent.$_.metadata.description + "`n" : $null
 
             if ($definitionType -eq 'string') {
-                $definitionValues = ($definitionContent.$_.allowedValues -join ',')
+                $definitionValues = ($definitionContent.$_.allowedValues -join ', ')
                 return ($definitonTypeHeader -f $definitionName) + "*$definitionType*`n`n" + $definitionDescription + "`n" + $definitionValues + "`n`n"
             }
             else {
                 # Use a new variable to avoid overwriting the loop variable
-                $definitionTableRows = $definitionContent.$_.properties |
+                $definitionTableRows = $definitionContent.$definitionName.properties |
                 Get-Member -MemberType NoteProperty |
                 Select-Object -ExpandProperty Name |
                 ForEach-Object -Process {
                     $propertyName = $_
                     # Use the null-coalescing operator to handle cases where 'type' is not a valid property
-                    $propertyType = $definitionContent.$_.properties.$_.type ?? $definitionContent.$definitionName.properties.$_.'$ref'
-                    $propertyDescription = ($definitionContent.$_.properties.$_.metadata.description -replace "`n", $token)
+                    $propertyType = $definitionContent.$definitionName.properties.$_.type ?? $definitionContent.$definitionName.properties.$_.'$ref'
+                    $propertyDescription = ($definitionContent.$definitionName.properties.$_.metadata.description -replace "`n", $token)
                     # Use the null-coalescing operator and type-checking to handle different property types
                     $propertyMin = if ($definitionContent.$definitionName.properties.$_.Type -eq 'integer') { $definitionContent.$definitionName.properties.$_.minimum ?? $definitionContent.$definitionName.properties.$_.minLength } else { "" }
                     $propertyMax = $propertyMax = if ($definitionContent.$definitionName.properties.$_.Type -eq 'integer') { $definitionContent.$definitionName.properties.$_.maximum ?? $definitionContent.$definitionName.properties.$_.maxLength } else { "" }
