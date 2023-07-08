@@ -1,0 +1,6 @@
+{
+  "experimentalFeaturesEnabled": {
+    "symbolicNameCodegen": true,
+    "userDefinedTypes": true
+  }
+}
