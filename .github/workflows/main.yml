@@ -1,8 +1,8 @@
 name: PublishModule
 
 on:
-  [push]
-  # branches: ["main"]
+  push:
+    branches: ["main"]
 
 jobs:
   changedFiles:
@@ -37,7 +37,7 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Connect-AzContainerRegistry -Name ${{ vars.REGISTRY_NAME }}
+            Connect-AzContainerRegistry -Registry ${{ secrets.REGISTRY_NAME }}
           azPSVersion: "latest"
 
       - name: Publish module and documentation
