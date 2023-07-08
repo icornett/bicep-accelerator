@@ -29,12 +29,11 @@ function Publish-BicepModule {
     )
 
     try {
-        $registry = Get-AzContainerRegistry -Name $RegistryName -ResourceGroupName $(Get-AzResource -Name $RegistryName).ResourceGroupName
         $image = "$($modulePath):v1.0"
 
-        Write-Output $([char]27 + "[2;34;102mPublishing Module $item to $($registry.LoginServer)/$image")
+        Write-Output -InputObject $([char]27 + "[2;34;102mPublishing Module $item to $($script:registry.LoginServer)/$image" + [char]27 + "[2;39;49m")
 
-        Publish-AzBicepModule -FilePath $item -Target "br:$($registry.LoginServer)/$image"
+        Publish-AzBicepModule -FilePath $item -Target "br:$($script:registry.LoginServer)/$image"
     }
     catch {
         Write-Error -Message "Unable to upload bicep module $(image) to Container Registry $($registry.Name)!`nThe error message was: $($_.ErrorDetails)`n`nThis error is non-terminating"
@@ -210,6 +209,7 @@ function Get-OutputContent {
 $templates = $(Get-ChildItem $TemplatePath -Recurse -Filter '*.bicep').FullName | Sort-Object
 $token = '<br/>'
 $userDefinedTypes = $null
+$script:registry = $null
 
 foreach ($item in $templates) {
     $itemPath = Split-Path -Path $item -Parent
@@ -261,6 +261,8 @@ foreach ($item in $templates) {
             try {
                 Write-Output -InputObject "Connecting to Bicep Registry $RegistryName"
                 Connect-AzContainerRegistry -Name $RegistryName | Out-Null
+                $resourceGroup = Get-AzResource -Name $RegistryName | Select-Object -ExpandProperty ResourceGroupName
+                $script:registry = Get-AzContainerRegistry -Name $RegistryName -ResourceGroupName $resourceGroup
                 Write-Output $([char]27 + "[32mSuccessfully connected to $RegistryName")
             }
             catch {
@@ -270,14 +272,14 @@ foreach ($item in $templates) {
             }
 
             try {
-                Write-Output -InputObject "Checking for an existing $moduleName"
+                Write-Output -InputObject $([char]27 + "[39mChecking for an existing $moduleName")
                 $modulePath = "bicep/modules/$moduleName"
                 $repository = Get-AzContainerRegistryRepository -RegistryName $RegistryName -Name $modulePath
 
                 if (-not ($repository)) {
                     Write-Output $([char]27 + "[33mCould not locate module $modulePath in registry $RegistryName")
                     Write-Output $([char]27 + "[36mAttempting to publish module $modulePath to registry $RegistryName")
-                    Publish-BicepModule $modulePath
+                    Publish-BicepModule -moduleName $modulePath -registry $reg
                     $repository = Get-AzContainerRegistryRepository -RegistryName -Name $modulePath
                 }
             }
@@ -291,11 +293,11 @@ foreach ($item in $templates) {
 
                 # Hack - Default to v1.0 if empty
                 $recentTag = [string]::IsNullOrEmpty($recentTag) ? 'v1.0' : $recentTag
-                Write-Output -InputObject "Most recent tag found for $($repository.ImageName) is $recentTag"
+                Write-Output -InputObject $([char]27 + "[39mMost recent tag found for $($repository.ImageName) is $recentTag")
                 $moduleName += " br:$($repository.Registry)/$($repository.ImageName):$recentTag"
             }
             catch {
-                Write-Output -InputObject "Could not obtain the tag information, proceeding without $moduleName existing in registry $RegistryName"
+                Write-Output -InputObject ([char]27 + "[2;91;43mCould not obtain the tag information, proceeding without $moduleName existing in registry $RegistryName" + [char]27 + "[2;39;49m")
             }
         }
     }
