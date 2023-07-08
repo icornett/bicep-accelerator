@@ -17,7 +17,7 @@ jobs:
         run: |
           head=$(git rev-parse HEAD)
           current=$(git rev-parse $GITHUB_REF)
-          echo "templates=$(git diff --name-only --diff-filter=ACMRT $head $current -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
+          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} $GITHUB_REF -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
 
   publish:
     runs-on: ubuntu-latest
