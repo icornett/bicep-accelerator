@@ -212,6 +212,18 @@ foreach ($item in $templates) {
         $configPath = Split-Path -Path $item -Parent
         $config = Get-Content -Path (Join-Path -Path $configPath -ChildPath bicepconfig.json) -Raw | ConvertFrom-Json
         $userDefinedTypes = $config.experimentalFeaturesEnabled.userDefinedTypes
+        if (-not ($config.experimentalFeaturesEnabled.symbolicNameCodegen)) {
+            $config.experimentalFeaturesEnabled.symbolicNameCodegen = $true
+            $config | ConvertTo-Json -Depth 10 | Out-File $(Join-Path -Path $itemPath -ChildPath 'bicepconfig.json')
+        }
+    }
+    else {
+        [PSCustomObject]$config = @{
+            experimentalFeaturesEnabled = @{
+                symbolicNameCodegen = $true
+            }
+        }
+        $config | ConvertTo-Json -Depth 10 | Out-File $(Join-Path -Path $itemPath -ChildPath 'bicepconfig.json')
     }
     $moduleName = [System.IO.Path]::GetFileNameWithoutExtension($item)
     $rootPath = $(git rev-parse --show-toplevel)

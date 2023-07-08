@@ -29,7 +29,7 @@ jobs:
         shell: pwsh
         run: |
           if (-not (Test-Path -Path docs)) { mkdir -p docs }
-          scripts/Create-BicepDocumentation.ps1 -TemplatePath modules/ -RegistryName ${{ vars.REGISTRY_NAME }}
+          scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }}
 
       - name: Upload Documentation to Wiki
         uses: SwiftDocOrg/github-wiki-publish-action@v1
