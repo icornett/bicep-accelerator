@@ -209,15 +209,18 @@ foreach ($item in $templates) {
     $itemPath = Split-Path -Path $item -Parent
     $file = bicep build $item --stdout | ConvertFrom-Json
     if (Test-Path -Path "$($itemPath)/bicepconfig.json") {
+        Write-Debug -Message "Getting bicepconfig content"
         $configPath = Split-Path -Path $item -Parent
         $config = Get-Content -Path (Join-Path -Path $configPath -ChildPath bicepconfig.json) -Raw | ConvertFrom-Json
         $userDefinedTypes = $config.experimentalFeaturesEnabled.userDefinedTypes
         if (-not ($config.experimentalFeaturesEnabled.symbolicNameCodegen)) {
+            Write-Debug -Message "Adding temporary feature for documentation"
             $config.experimentalFeaturesEnabled.symbolicNameCodegen = $true
             $config | ConvertTo-Json -Depth 10 | Out-File $(Join-Path -Path $itemPath -ChildPath 'bicepconfig.json')
         }
     }
     else {
+        Write-Debug -Message "No bicepconfig.json found, creating one for documentation purposes"
         [PSCustomObject]$config = @{
             experimentalFeaturesEnabled = @{
                 symbolicNameCodegen = $true
@@ -294,14 +297,18 @@ foreach ($item in $templates) {
     Write-Output -InputObject "# $moduleName`n`n" | Tee-Object -FilePath $readmeFile -Encoding utf8
 
     if (-not ([string]::IsNullOrEmpty($summary))) {
+        Write-Debug -Message "Getting summary content..."
         Get-SummaryContent $summary | Out-File -FilePath $readmeFile -Append
     }
 
+    Write-Debug -Message "Getting Parameters..."
     Get-ParameterContent $file.parameters | Out-File -FilePath $readmeFile -Append
 
     if ($userDefinedTypes) {
+        Write-Debug -Message "Getting User Defined Types..."
         Get-CustomTypeContent $file.definitions | Out-File -FilePath $readmeFile -Append
     }
+    Write-Debug -Message "Getting Resources..."
     Get-ResourceContent $file.resources | Out-File -FilePath $readmeFile -Append
 
     if ($file.outputs) {
