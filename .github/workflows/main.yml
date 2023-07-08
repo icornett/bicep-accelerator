@@ -2,7 +2,9 @@ name: PublishModule
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
+      - "refs/pull/**"
   pull_request:
     types: [opened, edited, reopened]
 
