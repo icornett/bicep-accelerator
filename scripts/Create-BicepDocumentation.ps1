@@ -32,7 +32,7 @@ function Publish-BicepModule {
         $registry = Get-AzContainerRegistry -Name $RegistryName -ResourceGroupName $(Get-AzResource -Name $RegistryName).ResourceGroupName
         $image = "$($modulePath):v1.0"
 
-
+        Write-Output $([char]27 + "[2;34;102mPublishing Module $item to $($registry.LoginServer)/$image")
 
         Publish-AzBicepModule -FilePath $item -Target "br:$($registry.LoginServer)/$image"
     }
@@ -261,7 +261,7 @@ foreach ($item in $templates) {
             try {
                 Write-Output -InputObject "Connecting to Bicep Registry $RegistryName"
                 Connect-AzContainerRegistry -Name $RegistryName | Out-Null
-                Write-Host -ForegroundColor Green "Successfully connected to $RegistryName"
+                Write-Output $([char]27 + "[32mSuccessfully connected to $RegistryName")
             }
             catch {
                 Write-Error -Message "Unable to connect to Azure Container Registry $RegistryName"
@@ -275,8 +275,8 @@ foreach ($item in $templates) {
                 $repository = Get-AzContainerRegistryRepository -RegistryName $RegistryName -Name $modulePath
 
                 if (-not ($repository)) {
-                    Write-Host -ForegroundColor Yellow "Could not locate module $modulePath in registry $RegistryName"
-                    Write-Host -ForegroundColor Cyan "Attempting to publish module $modulePath to registry $RegistryName"
+                    Write-Output $([char]27 + "[33mCould not locate module $modulePath in registry $RegistryName")
+                    Write-Output $([char]27 + "[36mAttempting to publish module $modulePath to registry $RegistryName")
                     Publish-BicepModule $modulePath
                     $repository = Get-AzContainerRegistryRepository -RegistryName -Name $modulePath
                 }
