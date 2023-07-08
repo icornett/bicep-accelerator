@@ -21,20 +21,13 @@ jobs:
           creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
           enable-AzPSSession: true
 
-      - name: Login to ACR
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            Connect-AzContainerRegistry -Registry ${{ vars.REGISTRY_NAME }}
-          azPSVersion: "latest"
-
-      - name: Publish module and documentation
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            if (-not (Test-Path -Path docs)) { mkdir -p docs }
-            scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }} *>&1
-          azPSVersion: "latest"
+      # - name: Publish module and documentation
+      #   uses: azure/powershell@v1
+      #   with:
+      #     inlineScript: |
+      #       if (-not (Test-Path -Path docs)) { mkdir -p docs }
+      #       scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }} *>&1
+      #     azPSVersion: "latest"
 
       - name: Upload Documentation to Wiki
         uses: SwiftDocOrg/github-wiki-publish-action@v1
