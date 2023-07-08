@@ -3,27 +3,12 @@ name: PublishModule
 on:
   push:
     branches: ["main"]
+  pull_request:
+    types: [opened, edited, reopened]
 
 jobs:
-  changedFiles:
-    runs-on: ubuntu-latest
-    outputs:
-      templates: ${{ steps.changes.outputs.templates }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Get Changed Modules
-        id: changes
-        run: |
-          set -exo pipefail
-          head=$(git rev-parse HEAD)
-          current=$(git rev-parse $GITHUB_REF)
-          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
-
   publish:
     runs-on: ubuntu-latest
-    needs: changedFiles
-    if: ${{needs.changedFiles.outputs.templates}} && github.event.push
     steps:
       - uses: actions/checkout@v3
 
@@ -37,14 +22,14 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Connect-AzContainerRegistry -Registry ${{ secrets.REGISTRY_NAME }}
+            Connect-AzContainerRegistry -Registry ${{ vars.REGISTRY_NAME }}
           azPSVersion: "latest"
 
       - name: Publish module and documentation
         shell: pwsh
         run: |
-          $templates = ${{needs.changedFiles.outputs.templates}}
-          $templates.GetType()
+          if (-not (Test-Path -Path docs)) { mkdir -p docs }
+          scripts/Create-BicepDocumentation.ps1 -TemplatePath modules/ -RegistryName ${{ vars.REGISTRY_NAME }}
 
       - name: Upload Documentation to Wiki
         uses: SwiftDocOrg/github-wiki-publish-action@v1
