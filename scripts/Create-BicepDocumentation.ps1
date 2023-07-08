@@ -58,6 +58,8 @@ function Get-ParameterContent {
     $StringBuilderParameterContent.Append($parameterTableHeader) | Out-Null
     $StringBuilderParameterContent.Append($parameterTableDivider) | Out-Null
 
+    Write-Debug -Message $parameterContent.ToString()
+
     $parameterTableRows = $parameterContent |
     Get-Member -MemberType NoteProperty |
     Select-Object -ExpandProperty Name |
@@ -146,6 +148,8 @@ function Get-ResourceContent {
     $StringBuilderResource.Append($resourceTableHeader) | Out-Null
     $StringBuilderResource.Append($resourceTableDivider) | Out-Null
 
+    Write-Debug -Message $resourceContent.ToString()
+
     [string]$resourceString = $resourceContent |
     Get-Member -MemberType NoteProperty |
     Select-Object |
@@ -187,6 +191,8 @@ function Get-OutputContent {
     $outputHeaderDivider = "| --- | --- | --- |"
     $outputRow = "| {0} | {1} | {2} |`n"
 
+    Write-Debug -Message $outputs.ToString()
+
     $outputString = $outputs.psobject.Properties |
     ForEach-Object { $outputRow -f $_.Name , $_.value.type, $_.value.value }
 
@@ -215,7 +221,7 @@ foreach ($item in $templates) {
         $userDefinedTypes = $config.experimentalFeaturesEnabled.userDefinedTypes
         if (-not ($config.experimentalFeaturesEnabled.symbolicNameCodegen)) {
             Write-Debug -Message "Adding temporary feature for documentation"
-            $config.experimentalFeaturesEnabled.symbolicNameCodegen = $true
+            $config.experimentalFeaturesEnabled | Add-Member -NotePropertyName symbolicNameCodegen -NotePropertyValue $true
             $config | ConvertTo-Json -Depth 10 | Out-File $(Join-Path -Path $itemPath -ChildPath 'bicepconfig.json')
         }
     }
@@ -255,7 +261,7 @@ foreach ($item in $templates) {
             try {
                 Write-Output -InputObject "Connecting to Bicep Registry $RegistryName"
                 Connect-AzContainerRegistry -Name $RegistryName | Out-Null
-                Write-Output -InputObject -ForegroundColor Green "Successfully connected to $RegistryName"
+                Write-Host -ForegroundColor Green "Successfully connected to $RegistryName"
             }
             catch {
                 Write-Error -Message "Unable to connect to Azure Container Registry $RegistryName"
@@ -269,8 +275,8 @@ foreach ($item in $templates) {
                 $repository = Get-AzContainerRegistryRepository -RegistryName $RegistryName -Name $modulePath
 
                 if (-not ($repository)) {
-                    Write-Output -InputObject -ForegroundColor Yellow "Could not locate module $modulePath in registry $RegistryName"
-                    Write-Output -InputObject -ForegroundColor Cyan "Attempting to publish module $modulePath to registry $RegistryName"
+                    Write-Host -ForegroundColor Yellow "Could not locate module $modulePath in registry $RegistryName"
+                    Write-Host -ForegroundColor Cyan "Attempting to publish module $modulePath to registry $RegistryName"
                     Publish-BicepModule $modulePath
                     $repository = Get-AzContainerRegistryRepository -RegistryName -Name $modulePath
                 }
