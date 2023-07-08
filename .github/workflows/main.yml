@@ -28,10 +28,12 @@ jobs:
           azPSVersion: "latest"
 
       - name: Publish module and documentation
-        shell: pwsh
-        run: |
-          if (-not (Test-Path -Path docs)) { mkdir -p docs }
-          scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }} -Debug *>&1
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            if (-not (Test-Path -Path docs)) { mkdir -p docs }
+            scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }} -Debug *>&1
+          azPSVersion: "latest"
 
       - name: Upload Documentation to Wiki
         uses: SwiftDocOrg/github-wiki-publish-action@v1
