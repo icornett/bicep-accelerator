@@ -244,7 +244,7 @@ foreach ($item in $templates) {
     if (Test-Path -Path $readmeFile) {
         if ($null -ne $RegistryName) {
             try {
-                Write-Host "Checking if you're logged into Azure"
+                Write-Output -InputObject "Checking if you're logged into Azure"
                 Get-AzContext
             }
             catch {
@@ -253,9 +253,9 @@ foreach ($item in $templates) {
             }
 
             try {
-                Write-Host "Connecting to Bicep Registry $RegistryName"
+                Write-Output -InputObject "Connecting to Bicep Registry $RegistryName"
                 Connect-AzContainerRegistry -Name $RegistryName | Out-Null
-                Write-Host -ForegroundColor Green "Successfully connected to $RegistryName"
+                Write-Output -InputObject -ForegroundColor Green "Successfully connected to $RegistryName"
             }
             catch {
                 Write-Error -Message "Unable to connect to Azure Container Registry $RegistryName"
@@ -264,13 +264,13 @@ foreach ($item in $templates) {
             }
 
             try {
-                Write-Host "Checking for an existing $moduleName"
+                Write-Output -InputObject "Checking for an existing $moduleName"
                 $modulePath = "bicep/modules/$moduleName"
                 $repository = Get-AzContainerRegistryRepository -RegistryName $RegistryName -Name $modulePath
 
                 if (-not ($repository)) {
-                    Write-Host -ForegroundColor Yellow "Could not locate module $modulePath in registry $RegistryName"
-                    Write-Host -ForegroundColor Cyan "Attempting to publish module $modulePath to registry $RegistryName"
+                    Write-Output -InputObject -ForegroundColor Yellow "Could not locate module $modulePath in registry $RegistryName"
+                    Write-Output -InputObject -ForegroundColor Cyan "Attempting to publish module $modulePath to registry $RegistryName"
                     Publish-BicepModule $modulePath
                     $repository = Get-AzContainerRegistryRepository -RegistryName -Name $modulePath
                 }
@@ -285,11 +285,11 @@ foreach ($item in $templates) {
 
                 # Hack - Default to v1.0 if empty
                 $recentTag = [string]::IsNullOrEmpty($recentTag) ? 'v1.0' : $recentTag
-                Write-Host "Most recent tag found for $($repository.ImageName) is $recentTag"
+                Write-Output -InputObject "Most recent tag found for $($repository.ImageName) is $recentTag"
                 $moduleName += " br:$($repository.Registry)/$($repository.ImageName):$recentTag"
             }
             catch {
-                Write-Host "Could not obtain the tag information, proceeding without $moduleName existing in registry $RegistryName"
+                Write-Output -InputObject "Could not obtain the tag information, proceeding without $moduleName existing in registry $RegistryName"
             }
         }
     }
