@@ -16,12 +16,12 @@
 
 _object_
 
-| Property Name | Property Type | Property Description                                       | Property Min | Property Max | Property Nullable | Property AllowedValues |
-| ------------- | ------------- | ---------------------------------------------------------- | ------------ | ------------ | ----------------- | ---------------------- |
-| audiences     | array         | The list of audiences that can appear in the issued token. |              |              | False             |                        |
-| issuer        | string        | The URL of the issuer to be trusted.                       |              |              | False             |                        |
-| name          | string        | The resource name                                          |              |              | False             |                        |
-| subject       | string        | The identifier of the external identity.                   |              |              | False             |                        |
+| Property Name | Property Type | Property Description                                                  | Property Min | Property Max | Property Nullable | Property AllowedValues |
+| ------------- | ------------- | --------------------------------------------------------------------- | ------------ | ------------ | ----------------- | ---------------------- |
+| audiences     | array         | The list of audiences that can appear in the issued token. `string[]` |              |              | False             |                        |
+| issuer        | string        | The URL of the issuer to be trusted.                                  |              |              | False             |                        |
+| name          | string        | The resource name                                                     |              |              | False             |                        |
+| subject       | string        | The identifier of the external identity.                              |              |              | False             |                        |
 
 ## Resources
 

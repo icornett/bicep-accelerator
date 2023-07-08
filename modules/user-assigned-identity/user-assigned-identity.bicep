@@ -21,7 +21,7 @@ param roles array = []
 type credential = {
   @description('The resource name')
   name: string
-  @description('The list of audiences that can appear in the issued token.')
+  @description('The list of audiences that can appear in the issued token. `string[]`')
   audiences: string[]
   @description('The URL of the issuer to be trusted.')
   issuer: string
