@@ -7,13 +7,18 @@ on:
 jobs:
   changedFiles:
     runs-on: ubuntu-latest
+    outputs:
+      templates: ${{ steps.changes.outputs.templates }}
     steps:
       - uses: actions/checkout@v3
 
       - name: Get Changed Modules
         id: changes
         run: |
-          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUTConnect-AzContainerRegistryConnect-AzContainerRegistryConnect-AzContainerRegistry
+          set -exo pipefail
+          head=$(git rev-parse HEAD)
+          current=$(git rev-parse $GITHUB_REF)
+          echo "templates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} -- modules/ | grep .bicep$ | xargs)" >> $GITHUB_OUTPUT
 
   publish:
     runs-on: ubuntu-latest
@@ -32,11 +37,18 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Connect-AzContainerRegistry -Name ${{ vars.REGISTRY_NAME }}
+            Connect-AzContainerRegistry -Registry ${{ secrets.REGISTRY_NAME }}
           azPSVersion: "latest"
 
       - name: Publish module and documentation
         shell: pwsh
         run: |
-          $templates = ${{needs.changedFiles.output.templates}}
+          $templates = ${{needs.changedFiles.outputs.templates}}
           $templates.GetType()
+
+      - name: Upload Documentation to Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "docs"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

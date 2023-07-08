@@ -76,7 +76,10 @@
         "ms-vsliveshare.vsliveshare",
         "ms-vscode-remote.remote-containers",
         "zokugun.explicit-folding",
-        "1password.vscode-op"
+        "1password.vscode-op",
+        "bencoleman.armview",
+        "msazurermtools.azurerm-vscode-tools",
+        "github.vscode-github-actions"
       ]
     }
   },
