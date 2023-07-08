@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - "main"
-      - "refs/pull/**"
   pull_request:
     types: [opened, edited, reopened]
+    branches:
+      - "main"
 
 jobs:
   publish:
@@ -32,7 +33,7 @@ jobs:
         with:
           inlineScript: |
             if (-not (Test-Path -Path docs)) { mkdir -p docs }
-            scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }} -Debug *>&1
+            scripts/Create-BicepDocumentation.ps1 -TemplatePath modules -RegistryName ${{ vars.REGISTRY_NAME }} *>&1
           azPSVersion: "latest"
 
       - name: Upload Documentation to Wiki
