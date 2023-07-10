@@ -13,3 +13,5 @@ flowchart TD
     C[Module consumed in Bicep Code]-->|deploys|D
     D[Azure Resources]
 ```
+
+Module documentation can be found in the wiki, or in the docs folder if you're a real geek and want the source code.
