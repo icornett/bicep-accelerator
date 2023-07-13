@@ -4,11 +4,8 @@ param location string = resourceGroup().location
 @description('The name of the application the CR belongs to')
 param appName string
 
-@description('The instance Id of the container registry')
-param instanceNumber string = '01'
-
-@description('The short code for the deployment location')
-param loc string = 'c1'
+@description('The name of the App Service Plan instance')
+param appServicePlanName string
 
 @description('The subscription Id of the subcription containing the container registry')
 param subscriptionId string = ''
@@ -16,8 +13,8 @@ param subscriptionId string = ''
 @description('The path for the app health check')
 param healthCheckPath string = '/health'
 
-@description('The compiled app name with dashes')
-param postfix string
+@description('The name of the key vault instance')
+param keyVaultName string
 
 param skuCapacity int
 @description('The Name of the resource SKU.')
@@ -93,7 +90,7 @@ param usePublicNetworkAccess bool = false
 param loadBalancingType string = 'PerSiteRoundRobin'
 
 @description('The configured time zone of the application, can be found [here](https://timezonedb.com/time-zones)')
-param websiteTimeZone string = 'America/Chicago'
+param websiteTimeZone string
 
 @description('Site redundancy mode')
 @allowed([
@@ -117,6 +114,12 @@ param apimInstanceName string = ''
 @description('The name of the API to bind to the App Service')
 param apiName string = ''
 
+@description('The name of the resource group for scope')
+param resourceGroupName string
+
+@description('The name of the container regisry containing the app image')
+param containerRegistryName string
+
 @description('The Key Vault Secrets User RBAC Role ID')
 var kvReader = resourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')
 
@@ -127,7 +130,7 @@ var monitoringMetricsPublisher = resourceId('Microsoft.Authorization/roleDefinit
 var apimApiInstanceId = length(apimSubscriptionId) > 0 ? resourceId(apimSubscriptionId, apimResourceGroupName, 'Microsoft.ApiManagement/service/apis', apimInstanceName, apiName) : null
 
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
-  name: 'kv-${postfix}'
+  name: keyVaultName
 }
 
 @description('Assign App Service KV Reader')
@@ -153,17 +156,17 @@ resource slotRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-
 // TODO: Update registry name when migrated to central repo
 @description('The Container Registry reference')
 resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' existing = {
-  name: 'cr${appName}le${loc}${instanceNumber}'
-  scope: resourceGroup(subscriptionId, 'rg-${appName}-le-${loc}-${instanceNumber}')
+  name: containerRegistryName
+  scope: resourceGroup(subscriptionId, resourceGroupName)
 }
 
 resource acrUser 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' existing = {
   name: 'id-${acr.name}'
-  scope: resourceGroup(subscriptionId, 'rg-onlinecalcs-le-c1-01')
+  scope: resourceGroup(subscriptionId, resourceGroupName)
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: 'plan-${postfix}'
+  name: appServicePlanName
   location: location
   tags: tags
   sku: {
@@ -181,7 +184,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
 }
 
 resource appService 'Microsoft.Web/sites@2022-09-01' = {
-  name: 'app-${postfix}'
+  name: appName
   location: location
   tags: union({
       'hidden-related:${resourceGroup().id}/providers/Microsoft.Web/serverfarms/appServicePlan': 'Resource'

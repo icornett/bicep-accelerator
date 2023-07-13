@@ -69,7 +69,7 @@ resource sqlservervnetrules 'Microsoft.Sql/servers/virtualNetworkRules@2022-08-0
   }
 }
 
-module privateendpoint 'br:cronlinecalcslec101.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deployPep) {
+module privateendpoint 'br:slalombicepregistry.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deployPep) {
   name: 'pepsqlserver-${nameDeployment}'
   params: {
     name: pepName

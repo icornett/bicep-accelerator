@@ -43,7 +43,7 @@ param snetDelegate bool = false
 param linuxFxVersion string = ''
 
 @description('The subnet delegation, if desired')
-module snetdelegation 'br:cronlinecalcslec101.azurecr.io/bicep/modules/snetdelegation:v1.0' = if (snetDelegate) {
+module snetdelegation 'br:slalombicepregistry.azurecr.io/bicep/modules/snetdelegation:v1.0' = if (snetDelegate) {
   name: 'snetdelegationfunctionapp-${nameDeployment}'
   scope: resourceGroup(vnetRgName)
   params: {
@@ -101,7 +101,7 @@ resource netconfig 'Microsoft.Web/sites/networkConfig@2022-09-01' = if (snetDele
 }
 
 @description('The Private Endpoint for the Function App')
-module privateendpoint 'br:cronlinecalcslec101.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deployPep) {
+module privateendpoint 'br:slalombicepregistry.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deployPep) {
   name: 'pepfunctionapp-${nameDeployment}'
   params: {
     name: 'pep-${functionapp.name}'

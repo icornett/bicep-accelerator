@@ -25,7 +25,7 @@ resource iothub 'Microsoft.Devices/IotHubs@2021-07-02' = {
   }
 }
 
-module privateendpoint 'br:cronlinecalcslec101.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deploypep) {
+module privateendpoint 'br:slalombicepregistry.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deploypep) {
   name: 'pepiothub-${nameDeployment}'
   params: {
     name: pepname

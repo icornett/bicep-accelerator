@@ -1,5 +1,5 @@
 @description('The compiled name of the service')
-param postfix string
+param keyVaultName string
 
 @description('Microservice name that this will attach to')
 param microserviceName string
@@ -71,7 +71,7 @@ param iaasSubnetName string
 var logAnalyticsWorkspaceId = resourceId('Microsoft.OperationalInsights/workspaces', logAnalyticsName)
 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
-  name: 'kv-${postfix}'
+  name: keyVaultName
 }
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {

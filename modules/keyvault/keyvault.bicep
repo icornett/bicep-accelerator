@@ -1,8 +1,8 @@
 @description('The location to deploy resources to')
 param location string = resourceGroup().location
 
-@description('The compiled name of the service')
-param postfix string
+@description('The name of the key vault instance')
+param keyVaultName string
 
 @description('A mapping of tags to assign to resources')
 param tags object = {}
@@ -40,7 +40,7 @@ param skuName string = 'standard'
 param createMode string = 'default'
 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
-  name: 'kv-${postfix}'
+  name: keyVaultName
   location: location
   tags: tags
   properties: {

@@ -49,6 +49,17 @@ param disableKeyBasedMetadataWriteAccess bool = true
 ])
 param backupType string = 'Periodic'
 
+@description('The name of the CosmosDB instance')
+param cosmosDbName string
+
+@description('The type of CosmosDB to deploy')
+@allowed([
+  'GlobalDocumentDB'
+  'MongoDB'
+  'Parse'
+])
+param cosmosDbType string = 'GlobalDocumentDB'
+
 @description('An integer representing the interval in minutes between two backups, 240 (4h) is included for free')
 param backupIntervalInMinutes int = 240
 
@@ -88,9 +99,6 @@ param vnetRgName string
 
 @description('The name of the virtual network')
 param vnetName string
-
-@description('The prepared postfix for resources')
-param postfix string
 
 @description('A mapping of tags to assign to resources')
 param tags object = {}
@@ -150,9 +158,9 @@ var backupPolicy = {
 var subnetId = resourceId(vnetRgName, 'Microsoft.Networks/virtualNetworks/subnets', vnetName, dbSubnetName)
 
 resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2022-11-15' = {
-  name: 'cosmos-${postfix}'
+  name: cosmosDbName
   location: location
-  kind: 'GlobalDocumentDB'
+  kind: cosmosDbType
   tags: tags
   properties: {
     consistencyPolicy: consistencyPolicy[defaultConsistencyLevel]

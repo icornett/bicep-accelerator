@@ -45,7 +45,7 @@ param roleAssignments roleAssignment[] = []
 param lock string = 'NotSpecified'
 
 @description('Define Private Endpoints that should be created for Azure Container Registry. Object members are `name` and `subnetId`')
-param privateEndpoints array = []
+param privateEndpoints privateEndpoint[] = []
 
 @description('Toggle if Zone Redundancy should be enabled on Azure Container Registry.')
 param zoneRedundancyEnabled bool = false
@@ -107,8 +107,8 @@ param metricsToEnable array = [
 ])
 param location string = 'centralus'
 
-@description('Array of Azure Location configurations that this Azure Container Registry should replicate to.  Object members are `location`, optionally `regionEndpointEnabled[bool]`, and `zoneRedundancy[bool]`.')
-param replicationLocations array = []
+@description('Array of Azure Location configurations that this Azure Container Registry should replicate to.')
+param replicationLocations replicationLocation[] = []
 
 @description('The number of images to keep tagged')
 param imagesToKeep int = 20
@@ -119,6 +119,18 @@ type roleAssignment = {
   roleDefinitionIdOrName: string
   @description('The `principalIds` attribute is an array of principal ids to apply to a role.')
   principalIds: array
+}
+
+@description('a Private Endpoint object')
+type privateEndpoint = {
+  name: string
+  subnetId: string
+}
+
+type replicationLocation = {
+  location: string
+  regionEndpointEnabled: bool?
+  zoneRedundancy: bool?
 }
 
 @description('Microsoft Public Container Registry Module from https://github.com/Azure/bicep-registry-modules/tree/main/modules/compute/container-registry')

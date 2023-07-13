@@ -16,131 +16,174 @@ param location string = 'global'
 @description('A mapping of tags to assign to the action group')
 param tags object = {}
 
-@description('''
-The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.
-Receiver objects contain the following required properties:
-`name`: `string` The name of the arm role receiver. Names must be unique across all receivers within an action group.
-`roleId`: `string` The arm role id.
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-''')
-param armRoleReceiversArray array = []
+@description('The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.')
+param armRoleReceiversArray armRoleReceiver[] = []
 
-@description('''
-The list of AutomationRunbook receivers that are part of this action group.
-Receiver objects contain the following properties:
-`automationAccountId`: `string` The Azure automation account Id which holds this runbook and authenticate to Azure resource.
-`isGlobalRunbook`: `bool` Indicates whether this instance is global runbook.
-`name`: (optional) `string` Indicates name of the webhook.
-`runbookName`: `string` The name for this runbook.
-`serviceUri`: (optional) The URI where webhooks should be sent.
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-`webhookResourceId`: `string` The resource id for webhook linked to this runbook.
-''')
-param automationRunbookReceiversArray array = []
+@description('The list of AutomationRunbook receivers that are part of this action group.')
+param automationRunbookReceiversArray automationRunbookReceiver[] = []
 
-@description('''
-The list of AzureAppPush receivers that are part of this action group.
-Receiver objects contain:
-`emailAddress`: `string` The email address registered for the Azure mobile app.
-`name`: `string` The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.
-''')
-param azureAppPushReceiversArray array = []
+@description('The list of AzureAppPush receivers that are part of this action group.')
+param azureAppPushReceiversArray azureAppPushReceiver[] = []
 
-@description('''
-The list of azure function receivers that are part of this action group.
+@description('The list of azure function receivers that are part of this action group.')
+param azureFunctionsReceiversArray azureFunctionsReceiver[] = []
 
-Receiver objects contain:
-`functionAppResourceId`: `string` The azure resource id of the function app.
-`functionName`: `string` The function name in the function app.
-`httpTriggerUrl`: `string` The http trigger url where http request sent to.
-`name`: `string` The name of the azure function receiver. Names must be unique across all receivers within an action group.
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-''')
-param azureFunctionsReceiversArray array = []
-
-@description('''
-The list of email receivers that are part of this action group.
-Receiver objects contain the following:
-`emailAddress`: `string` The email address of this receiver.
-`name`: `string` The name of the email receiver. Names must be unique across all receivers within an action group.
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-''')
-param emailReceiversArray array = []
+@description('The list of email receivers that are part of this action group.')
+param emailReceiversArray emailReceiver[] = []
 
 @description('Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.')
 param enabled bool = true
 
-@description('''
-The list of event hub receivers that are part of this action group.
-Receiver objects contain:
-`eventHubName`: `string` The name of the specific Event Hub queue
-`eventHubNameSpace`: `string` The Event Hub namespace
-`name`: `string` The name of the Event hub receiver. Names must be unique across all receivers within an action group
-`subscriptionId`: `string` The Id for the subscription containing this event hub
-`tenantId`: (optional) `string` The tenant Id for the subscription containing this event hub
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-''')
-param eventHubReceiversArray array = []
+@description('The list of event hub receivers that are part of this action group.')
+param eventHubReceiversArray eventHubReceiver[] = []
 
 @description('The short name of the action group. This will be used in SMS messages.')
 param groupShortName string
 
-@description('''
-The list of ITSM receivers that are part of this action group.
+@description('The list of ITSM receivers that are part of this action group.')
+param itsmReceiversArray itsmReceiver[] = []
 
-Receiver objects contain:
-`connectionId`: `string` Unique identification of ITSM connection among multiple defined in above workspace.
-`name`: `string` The name of the Itsm receiver. Names must be unique across all receivers within an action group.
-`region`: `string` Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'
-`ticketConfiguration`: `string` JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.
-`workspaceId`: `string` OMS LA instance identifier.
-''')
-param itsmReceiversArray array = []
+@description('The list of logic app receivers that are part of this action group.')
+param logicAppReceiversArray logicAppReceiver[] = []
 
-@description('''
-The list of logic app receivers that are part of this action group.
+@description('The list of SMS receivers that are part of this action group.')
+param smsReceiversArray smsReceiver[] = []
 
-Receiver objects contain:
-`callbackUrl`: `string` The callback url where http request sent to.
-`name`: `string` The name of the logic app receiver. Names must be unique across all receivers within an action group.
-`resourceId` : `string` The azure resource id of the logic app receiver.
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-''')
-param logicAppReceiversArray array = []
+@description('The list of voice receivers that are part of this action group.')
+param voiceReceiversArray voiceReceiver[] = []
 
-@description('''
-The list of SMS receivers that are part of this action group.
+@description('The list of webhook receivers that are part of this action group.')
+param webhookReceiversArray webhookReceiver[] = []
 
-Receiver objects contain:
-`countryCode`: `string` The country code of the SMS receiver.
-`name`: `string` The name of the SMS receiver. Names must be unique across all receivers within an action group.
-`phoneNumber`: `string` The phone number of the SMS receiver.
-''')
-param smsReceiversArray array = []
+@description('Roles are Azure RBAC roles and only built-in roles are supported.')
+type armRoleReceiver = {
+  @description('The name of the arm role receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('The ARM role id.')
+  roleId: string
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+}
 
-@description('''
-The list of voice receivers that are part of this action group.
+type automationRunbookReceiver = {
+  @description('The Azure automation account Id which holds this runbook and authenticate to Azure resource.')
+  automationAccountId: string
+  @description('Indicates whether this instance is global runbook.')
+  isGlobalRunbook: bool
+  @description('Indicates name of the webhook.')
+  name: string?
+  @description('The name for this runbook.')
+  runbookName: string
+  @description('The URI where webhooks should be sent.')
+  serviceUri: string?
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+  @description('The resource id for webhook linked to this runbook.')
+  webhookResourceId: string
+}
 
-Receiver objects contain:
-`countryCode`: `string` The country code of the voice receiver.
-`name`: `string` The name of the voice receiver. Names must be unique across all receivers within an action group.
-`phoneNumber`: `string` The phone number of the voice receiver.
-''')
-param voiceReceiversArray array = []
+type azureAppPushReceiver = {
+  @description('The email address registered for the Azure mobile app.')
+  emailAddress: string
+  @description('The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.')
+  name: string
+}
 
-@description('''
-The list of webhook receivers that are part of this action group.
+type azureFunctionsReceiver = {
+  @description('The azure resource id of the function app.')
+  functionAppResourceId: string
+  @description('The function name in the function app.')
+  functionName: string
+  @description('The http trigger url where http request sent to.')
+  httpTriggerUrl: string
+  @description('The name of the azure function receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+}
 
-Receiver objects contain:
-`identifierUri`: (optional) `string` Indicates the identifier uri for aad auth.
-`name`: `string` The name of the webhook receiver. Names must be unique across all receivers within an action group.
-`objectId`: (optional) `string` Indicates the webhook app object Id for aad auth.
-`serviceUri`: `string` The URI where webhooks should be sent.
-`tenantId`: (optional) `string` Indicates the tenant id for aad auth.
-`useAadAuth` : (optional) `bool` Indicates whether or not use AAD authentication.
-`useCommonAlertSchema`: (optional) `bool` Indicates whether to use common alert schema. (defaults to `true` if not provided)
-''')
-param webhookReceiversArray array = []
+type emailReceiver = {
+  @description('The email address of this receiver.')
+  emailAddress: string
+  @description('The name of the email receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+}
+
+type eventHubReceiver = {
+  @description('The name of the specific Event Hub queue')
+  eventHubName: string
+  @description('The Event Hub namespace')
+  eventHubNameSpace: string
+  @description('The name of the Event hub receiver. Names must be unique across all receivers within an action group')
+  name: string
+  @description('The Id for the subscription containing this event hub')
+  subscriptionId: string
+  @description('The tenant Id for the subscription containing this event hub')
+  tenantId: string?
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+}
+
+type itsmReceiver = {
+  @description('Unique identification of ITSM connection among multiple defined in above workspace.')
+  connectionId: string
+  @description(' The name of the Itsm receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('Region in which workspace resides. Supported values:`centralindia`, `japaneast`, `southeastasia`, `australiasoutheast`, `uksouth`, `westcentralus`, `canadacentral`, `eastus`, `westeurope`')
+  region: string
+  @description('JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.')
+  ticketConfiguration: string
+  @description('Log Analytics Workspace instance identifier.')
+  workspaceId: string
+}
+
+type logicAppReceiver = {
+  @description('The callback url where http request sent to.')
+  callbackUrl: string
+  @description('The name of the logic app receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('The azure resource id of the logic app receiver.')
+  resourceId: string
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+}
+
+type smsReceiver = {
+  @description('The country code of the SMS receiver.')
+  countryCode: string
+  @description('The name of the SMS receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('The phone number of the SMS receiver.')
+  phoneNumber: string
+}
+
+type voiceReceiver = {
+  @description('The country code of the voice receiver.')
+  countryCode: string
+  @description('The name of the voice receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('The phone number of the voice receiver.')
+  phoneNumber: string
+}
+
+type webhookReceiver = {
+  @description('Indicates the identifier uri for aad auth.')
+  identifierUri: string?
+  @description('The name of the webhook receiver. Names must be unique across all receivers within an action group.')
+  name: string
+  @description('Indicates the webhook app object Id for aad auth.')
+  objectId: string?
+  @description('The URI where webhooks should be sent.')
+  serviceUri: string
+  @description('Indicates the tenant id for aad auth.')
+  tenantId: string?
+  @description('Indicates whether or not use AAD authentication.')
+  useAadAuth: bool?
+  @description('Indicates whether to use common alert schema. (defaults to `true` if not provided)')
+  useCommonAlertSchema: bool?
+}
 
 var armRoleReceivers = [for (role, index) in armRoleReceiversArray: {
   name: role.name
@@ -179,7 +222,7 @@ var emailReceivers = [for (email, index) in emailReceiversArray: {
 
 var eventHubReceivers = [for (eh, index) in eventHubReceiversArray: {
   eventHubName: eh.eventHubName
-  eventHubNameSpace: eh.enentHubNameSpace
+  eventHubNameSpace: eh.eventHubNameSpace
   name: eh.name
   subscriptionId: eh.subscriptionId
   tenantId: eh.tenantId != null ? eh.tenantId : null

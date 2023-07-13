@@ -1,5 +1,5 @@
-@description('The compiled name of the application')
-param postfix string
+@description('The name of the log analytics workspace')
+param logAnalyticsWorkspaceName string
 
 @description('The network access type for accessing Log Analytics.')
 param usePublicNetwork bool = true
@@ -48,7 +48,7 @@ param vnetName string
 param iaasSubnetName string
 
 resource logWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
-  name: 'log-${postfix}'
+  name: logAnalyticsWorkspaceName
   location: location
   tags: tags
   identity: {

@@ -2,10 +2,10 @@
 param location string = resourceGroup().location
 
 @description('The compiled appName with no dashes')
-param postfixNoDash string
+param storageAccountName string
 
-@description('The compiled app name with dashes')
-param postfix string
+@description('The name of the Key Vault instance')
+param keyVaultName string
 
 @description('The storage account sku name.')
 @allowed([
@@ -43,8 +43,6 @@ param enablePublicNetworkAccess bool = false
 @description('The resource ID of the storage subnet')
 var storageSubnetId = resourceId(vnetRgName, 'Microsoft.Networks/virtualNetworks/subnets', vnetName, storageSubnetName)
 
-// @description('The resource id of the script runner')
-// var websiteConfigId = env == 'prd' ? resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'id-onlinecalcs-${env}-scripts') : resourceId('rg-onlinecalcs-le-c1-01', 'Microsoft.ManagedIdentity/userAssignedIdentities', 'id-onlinecalcs-le-scripts')
 var storagePrimaryConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
 var storageSecondaryConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[1].value}'
 
@@ -57,7 +55,7 @@ resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
-  name: 'st${postfixNoDash}'
+  name: storageAccountName
   location: location
   kind: 'StorageV2'
   tags: tags
@@ -90,7 +88,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 
 @description('The user to run the scripts for App registration and website configuration')
 resource websiteConfig 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
-  name: 'id-st${postfixNoDash}'
+  name: 'id-${storageAccountName}'
   location: location
   tags: tags
 }
@@ -191,7 +189,7 @@ resource websiteConfigScript 'Microsoft.Resources/deploymentScripts@2020-10-01' 
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
-  name: 'kv-${postfix}'
+  name: keyVaultName
 }
 
 resource defaultConnectionString 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {

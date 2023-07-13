@@ -13,13 +13,13 @@
 */
 
 @description('The name of the existing APIM instance')
-param apimName string = 'apim-core-le-c1-01'
+param apimName string
 
 @description('The subscription id for the shared APIM instance')
-param apimSubscriptionId string = 'b8b4a3a3-63d4-4f32-b20f-a09465c259e4'
+param apimSubscriptionId string
 
 @description('The name of the resource group for the shared APIM instance')
-param apimResourceGroupName string = 'it-core-le'
+param apimResourceGroupName string
 
 @description('The name of the APIM Workspace to deploy')
 param apimWorkspaceName string

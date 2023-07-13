@@ -8,17 +8,16 @@ param deploypep bool
 resource provs 'Microsoft.Devices/provisioningServices@2020-03-01' = {
   name: name
   location: location
-  sku:{
+  sku: {
     name: 'S1'
     capacity: 1
   }
-  properties:{
-    publicNetworkAccess:'Disabled'
+  properties: {
+    publicNetworkAccess: 'Disabled'
   }
 }
 
-
-module privateendpoint 'br:cronlinecalcslec101.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deploypep){
+module privateendpoint 'br:slalombicepregistry.azurecr.io/bicep/modules/privateendpoint:v1.0' = if (deploypep) {
   name: 'pepprovs-${nameDeployment}'
   params: {
     name: pepname
@@ -30,4 +29,4 @@ module privateendpoint 'br:cronlinecalcslec101.azurecr.io/bicep/modules/privatee
 }
 
 output provsId string = provs.id
-output pepId string = deploypep?privateendpoint.outputs.pepid:''
+output pepId string = deploypep ? privateendpoint.outputs.pepid : ''
