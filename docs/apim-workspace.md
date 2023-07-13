@@ -14,16 +14,16 @@ This module requires enabling the User Defined Types feature for Bicep in previe
 
 ## Parameters
 
-| Parameter Name        | Parameter Type | Parameter Description                                       | Parameter DefaultValue               | Parameter AllowedValues |
-| --------------------- | -------------- | ----------------------------------------------------------- | ------------------------------------ | ----------------------- |
-| apimApiList           | array          | APIM API definition object array                            |                                      |                         |
-| apimDescription       | string         | The description of the APIM Workspace                       |                                      |                         |
-| apimDisplayName       | string         | The display name of the APIM Workspace                      |                                      |                         |
-| apimName              | string         | The name of the existing APIM instance                      | apim-core-le-c1-01                   |                         |
-| apimProductsList      | array          | APIM Products to deploy                                     |                                      |                         |
-| apimResourceGroupName | string         | The name of the resource group for the shared APIM instance | it-core-le                           |                         |
-| apimSubscriptionId    | string         | The subscription id for the shared APIM instance            | b8b4a3a3-63d4-4f32-b20f-a09465c259e4 |                         |
-| apimWorkspaceName     | string         | The name of the APIM Workspace to deploy                    |                                      |                         |
+| Parameter Name        | Parameter Type | Parameter Description                                       | Parameter DefaultValue | Parameter AllowedValues |
+| --------------------- | -------------- | ----------------------------------------------------------- | ---------------------- | ----------------------- |
+| apimApiList           | array          | APIM API definition object array                            |                        |                         |
+| apimDescription       | string         | The description of the APIM Workspace                       |                        |                         |
+| apimDisplayName       | string         | The display name of the APIM Workspace                      |                        |                         |
+| apimName              | string         | The name of the existing APIM instance                      |                        |                         |
+| apimProductsList      | array          | APIM Products to deploy                                     |                        |                         |
+| apimResourceGroupName | string         | The name of the resource group for the shared APIM instance |                        |                         |
+| apimSubscriptionId    | string         | The subscription id for the shared APIM instance            |                        |                         |
+| apimWorkspaceName     | string         | The name of the APIM Workspace to deploy                    |                        |                         |
 
 ## Custom Types
 

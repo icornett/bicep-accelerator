@@ -8,9 +8,9 @@
 | enablePublicNetworkAccess | bool           | Enable public access to the website                                                 | False                      |                                                    |
 | errorDocument404Path      | string         | The path to the web error document. Defaults to index for single-page applications. | index.html                 |                                                    |
 | indexDocumentPath         | string         | The path to the web index document.                                                 |                            |                                                    |
+| keyVaultName              | string         | The name of the Key Vault instance                                                  |                            |                                                    |
 | location                  | string         | The location to deploy the storage account to                                       | [resourceGroup().location] |                                                    |
-| postfix                   | string         | The compiled app name with dashes                                                   |                            |                                                    |
-| postfixNoDash             | string         | The compiled appName with no dashes                                                 |                            |                                                    |
+| storageAccountName        | string         | The compiled appName with no dashes                                                 |                            |                                                    |
 | storageSku                | string         | The storage account sku name.                                                       | Standard_LRS               | Standard_LRS,Standard_GRS,Standard_ZRS,Premium_LRS |
 | storageSubnetName         | string         | The subnet name from the storage subnet                                             |                            |                                                    |
 | tags                      | object         | A mapping of tags to apply to the resource                                          |                            |                                                    |
