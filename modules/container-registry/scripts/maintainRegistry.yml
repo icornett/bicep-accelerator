@@ -1,0 +1,43 @@
+version: v1.1.0
+steps:
+  - cmd: mcr.microsoft.com/azure-cli:latest <<EOF
+#!/bin/bash
+
+#parse named parameters
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -r|--registry) acr_name="$2"; shift ;;
+        -g|--resource-group) resource_group="$2"; shift ;;
+        -n|--number-to-keep) num_of_images_to_keep="$3"; shift ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+#echo named parameters
+echo "Registry Name: $acr_name"
+echo "Resource Group: $resource_group"
+echo "Number of Images to Keep: $num_of_images_to_keep"
+
+az login --identity
+
+#get a list of all repositories in the ACR
+repositories=$(az acr repository list --name $acr_name --resource-group $resource_group --output tsv)
+
+#loop through each repository
+for repository in $repositories
+do
+  #get a list of all tag names for each repository
+  tags=$(az acr repository show-tags --name $acr_name --resource-group $resource_group --repository $repository --orderby time_desc --output tsv)
+
+  #create an array of all tag names
+#   IFS=$'\n' read -rd '' -a tag_array <<<\\"$tags"
+
+  #loop through each tag name
+  for ((i=$num_of_images_to_keep; i<${#tags[@]}; i++))
+  do
+    #untag the tag which is not latest n
+    az acr repository untag --name $acr_name --resource-group $resource_group --repository $repository --yes --image ${tags[$i]}
+  done
+done
+EOF

@@ -36,5 +36,5 @@ repos:
   #       language: system
   #       files: ^.+\.bicep$
   #       entry: |
-  #         pwsh scripts/Create-BicepDocumentation.ps1 -RegistryName cronlinecalcslec101 -TemplatePath
+  #         pwsh scripts/Create-BicepDocumentation.ps1 -RegistryName slalombicepregistry -TemplatePath
   #   repo: local
