@@ -34,6 +34,7 @@ function Publish-BicepModule {
         Write-Output -InputObject $([char]27 + "[2;34;102mPublishing Module $item to $($script:registry.LoginServer)/$image" + [char]27 + "[2;39;49m")
 
         Publish-AzBicepModule -FilePath $item -Target "br:$($script:registry.LoginServer)/$image"
+        Start-Sleep -Seconds 5
     }
     catch {
         Write-Error -Message "Unable to upload bicep module $(image) to Container Registry $($registry.Name)!`nThe error message was: $($_.ErrorDetails)`n`nThis error is non-terminating"
