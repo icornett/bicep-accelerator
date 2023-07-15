@@ -1,4 +1,4 @@
-# keyvault br:slalombicepregistry.azurecr.io/bicep/modules/keyvault:v1.0
+# keyvault br:icornett.azurecr.io/bicep/modules/keyvault:v1.0
 
 ## Parameters
 

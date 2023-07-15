@@ -1,0 +1,97 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://containers.dev/implementors/json_reference/
+{
+  "name": "Bicep Accelerator",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "icornett.azurecr.io/bicep-accelerator:latest",
+  // "build": {
+  //   "dockerfile": "Dockerfile"
+  // },
+
+  "containerUser": "vscode",
+
+  // Features to add to the dev container, these are built into the image. More info: https://containers.dev/features.
+  // "features": {
+  //   "ghcr.io/devcontainers/features/common-utils:2": {
+  //     "installZsh": true,
+  //     "configureZshAsDefaultShell": true,
+  //     "installOhMyZsh": true,
+  //     "upgradePackages": true,
+  //     "username": "vscode",
+  //     "userUid": "automatic",
+  //     "userGid": "automatic"
+  //   },
+  //   "ghcr.io/devcontainers/features/github-cli:1": {
+  //     "installDirectlyFromGitHubRelease": true,
+  //     "version": "latest"
+  //   },
+  //   "ghcr.io/devcontainers/features/powershell:1": {
+  //     "version": "latest",
+  //     "modules": "Az"
+  //   },
+  //   "ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2": {},
+  //   "ghcr.io/devcontainers-contrib/features/checkov:1": {
+  //     "version": "latest"
+  //   },
+  //   "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+  //     "plugins": "ssh-agent npm 1password git vscode",
+  //     "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",
+  //     "username": "vscode"
+  //   },
+  //   "ghcr.io/stuartleeks/dev-container-features/azure-cli-persistence:0": {},
+  //   "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
+  //   "ghcr.io/eliises/devcontainer-features/devcontainers-cli:1": {
+  //     "version": "latest",
+  //     "nodeVersion": "latest"
+  //   },
+  //   "ghcr.io/flexwie/devcontainer-features/op:1": {},
+  //   "ghcr.io/devcontainers-contrib/features/pipx-package:1": {
+  //     "package": "secureli"
+  //   },
+  //   "ghcr.io/devcontainers-contrib/features/actions-runner:1": {}
+  // },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "onCreateCommand": {
+    "fixFsPerms": "sudo chmod -R 775 /workspaces"
+    "allowVscodeUser": "sudo chown -R vscode:vscode /workspaces"
+    // "initSecureli": "secureli init --reset --yes"
+  },
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "microsoft-dciborow.align-bicep",
+        "ms-azuretools.vscode-bicep",
+        "ms-vscode.powershell",
+        "vscode-icons-team.vscode-icons",
+        "editorconfig.editorconfig",
+        "equinusocio.vsc-material-theme",
+        "yzhang.markdown-all-in-one",
+        "danielsanmedium.dscodegpt",
+        "cschleiden.vscode-github-actions",
+        "esbenp.prettier-vscode",
+        "github.vscode-pull-request-github",
+        "ms-vsliveshare.vsliveshare",
+        "ms-vscode-remote.remote-containers",
+        "zokugun.explicit-folding",
+        "1password.vscode-op",
+        "bencoleman.armview",
+        "msazurermtools.azurerm-vscode-tools",
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+
+  "mounts": [
+    "source=profile,target=/home/vscode,type=volume",
+    "target=/home/vscode/.vscode-server,type=volume"
+  ],
+
+  "remoteUser": "root"
+}

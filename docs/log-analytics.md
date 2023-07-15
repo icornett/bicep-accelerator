@@ -1,4 +1,4 @@
-# log-analytics br:slalombicepregistry.azurecr.io/bicep/modules/log-analytics:v1.0
+# log-analytics br:icornett.azurecr.io/bicep/modules/log-analytics:v1.0
 
 ## Parameters
 

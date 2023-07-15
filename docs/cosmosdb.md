@@ -1,4 +1,4 @@
-# cosmosdb br:slalombicepregistry.azurecr.io/bicep/modules/cosmosdb:v1.0
+# cosmosdb br:icornett.azurecr.io/bicep/modules/cosmosdb:v1.0
 
 ## Parameters
 

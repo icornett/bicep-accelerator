@@ -1,4 +1,4 @@
-# app-insights br:slalombicepregistry.azurecr.io/bicep/modules/app-insights:v1.0
+# app-insights br:icornett.azurecr.io/bicep/modules/app-insights:v1.0
 
 ## Parameters
 

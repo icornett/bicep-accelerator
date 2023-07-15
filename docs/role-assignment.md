@@ -1,4 +1,4 @@
-# role-assignment br:slalombicepregistry.azurecr.io/bicep/modules/role-assignment:v1.0
+# role-assignment br:icornett.azurecr.io/bicep/modules/role-assignment:v1.0
 
 ## Parameters
 

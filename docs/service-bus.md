@@ -1,4 +1,4 @@
-# service-bus br:slalombicepregistry.azurecr.io/bicep/modules/service-bus:v1.0
+# service-bus br:icornett.azurecr.io/bicep/modules/service-bus:v1.0
 
 ## Parameters
 

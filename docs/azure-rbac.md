@@ -1,4 +1,4 @@
-# azure-rbac br:slalombicepregistry.azurecr.io/bicep/modules/azure-rbac:v1.0
+# azure-rbac br:icornett.azurecr.io/bicep/modules/azure-rbac:v1.0
 
 ## Parameters
 

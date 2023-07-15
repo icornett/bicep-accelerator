@@ -1,4 +1,4 @@
-# appservice br:slalombicepregistry.azurecr.io/bicep/modules/appservice:v1.0
+# appservice br:icornett.azurecr.io/bicep/modules/appservice:v1.0
 
 ## Parameters
 

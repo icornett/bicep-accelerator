@@ -1,4 +1,4 @@
-# storage-account br:slalombicepregistry.azurecr.io/bicep/modules/storage-account:v1.0
+# storage-account br:icornett.azurecr.io/bicep/modules/storage-account:v1.0
 
 ## Parameters
 

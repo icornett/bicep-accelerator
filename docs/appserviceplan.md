@@ -1,4 +1,4 @@
-# appserviceplan br:slalombicepregistry.azurecr.io/bicep/modules/appserviceplan:v1.0
+# appserviceplan br:icornett.azurecr.io/bicep/modules/appserviceplan:v1.0
 
 ## Parameters
 
