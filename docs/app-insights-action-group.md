@@ -1,4 +1,4 @@
-# app-insights-action-group br:slalombicepregistry.azurecr.io/bicep/modules/app-insights-action-group:v1.0
+# app-insights-action-group br:icornett.azurecr.io/bicep/modules/app-insights-action-group:v1.0
 
 ## Parameters
 

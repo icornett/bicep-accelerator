@@ -1,4 +1,4 @@
-# container-registry-cache br:slalombicepregistry.azurecr.io/bicep/modules/container-registry-cache:v1.0
+# container-registry-cache br:icornett.azurecr.io/bicep/modules/container-registry-cache:v1.0
 
 ## Description
 

@@ -1,4 +1,4 @@
-# container-registry br:slalombicepregistry.azurecr.io/bicep/modules/container-registry:v1.0
+# container-registry br:icornett.azurecr.io/bicep/modules/container-registry:v1.0
 
 ## Parameters
 

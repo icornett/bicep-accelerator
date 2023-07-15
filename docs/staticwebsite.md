@@ -1,4 +1,4 @@
-# staticwebsite br:slalombicepregistry.azurecr.io/bicep/modules/staticwebsite:v1.0
+# staticwebsite br:icornett.azurecr.io/bicep/modules/staticwebsite:v1.0
 
 ## Parameters
 

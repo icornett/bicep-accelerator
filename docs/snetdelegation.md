@@ -1,4 +1,4 @@
-# snetdelegation br:slalombicepregistry.azurecr.io/bicep/modules/snetdelegation:v1.0
+# snetdelegation br:icornett.azurecr.io/bicep/modules/snetdelegation:v1.0
 
 ## Parameters
 

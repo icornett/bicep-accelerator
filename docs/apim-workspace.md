@@ -1,4 +1,4 @@
-# apim-workspace br:slalombicepregistry.azurecr.io/bicep/modules/apim-workspace:v1.0
+# apim-workspace br:icornett.azurecr.io/bicep/modules/apim-workspace:v1.0
 
 ## Description
 

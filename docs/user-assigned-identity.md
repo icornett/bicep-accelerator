@@ -1,4 +1,4 @@
-# user-assigned-identity br:slalombicepregistry.azurecr.io/bicep/modules/user-assigned-identity:v1.0
+# user-assigned-identity br:icornett.azurecr.io/bicep/modules/user-assigned-identity:v1.0
 
 ## Parameters
 

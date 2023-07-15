@@ -1,4 +1,4 @@
-# eventhub br:slalombicepregistry.azurecr.io/bicep/modules/eventhub:v1.0
+# eventhub br:icornett.azurecr.io/bicep/modules/eventhub:v1.0
 
 ## Parameters
 

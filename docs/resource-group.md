@@ -1,4 +1,4 @@
-# resource-group br:slalombicepregistry.azurecr.io/bicep/modules/resource-group:v1.0
+# resource-group br:icornett.azurecr.io/bicep/modules/resource-group:v1.0
 
 ## Parameters
 

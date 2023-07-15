@@ -1,4 +1,4 @@
-# functionapp br:slalombicepregistry.azurecr.io/bicep/modules/functionapp:v1.0
+# functionapp br:icornett.azurecr.io/bicep/modules/functionapp:v1.0
 
 ## Parameters
 

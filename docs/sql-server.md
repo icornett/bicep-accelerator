@@ -1,4 +1,4 @@
-# sql-server br:slalombicepregistry.azurecr.io/bicep/modules/sql-server:v1.0
+# sql-server br:icornett.azurecr.io/bicep/modules/sql-server:v1.0
 
 ## Parameters
 

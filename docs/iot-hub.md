@@ -1,4 +1,4 @@
-# iot-hub br:slalombicepregistry.azurecr.io/bicep/modules/iot-hub:v1.0
+# iot-hub br:icornett.azurecr.io/bicep/modules/iot-hub:v1.0
 
 ## Parameters
 
