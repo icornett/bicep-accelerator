@@ -1,0 +1,1 @@
+# This is just a placeholder script to satisfy secureli init for shell scripts

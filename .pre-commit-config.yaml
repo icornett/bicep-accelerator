@@ -18,8 +18,8 @@ repos:
       - id: check-merge-conflict
         name: Ensure merge tokens aren't in files
         args: ["--assume-in-merge"]
-      - id: no-commit-to-branch
-        name: Don't allow direct commit to main
+      # - id: no-commit-to-branch
+      #   name: Don't allow direct commit to main
   - repo: https://github.com/bridgecrewio/checkov.git
     rev: "2.3.160" # change to tag or sha
     hooks:
