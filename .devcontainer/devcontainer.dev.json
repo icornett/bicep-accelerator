@@ -56,7 +56,7 @@
 
   // Use 'postCreateCommand' to run commands after the container is created.
   "onCreateCommand": {
-    "fixFsPerms": "sudo chmod -R 775 /workspaces"
+    "fixFsPerms": "sudo chmod -R 775 /workspaces",
     "allowVscodeUser": "sudo chown -R vscode:vscode /workspaces"
     // "initSecureli": "secureli init --reset --yes"
   },

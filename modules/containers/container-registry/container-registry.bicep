@@ -102,10 +102,34 @@ param metricsToEnable array = [
 
 @description('The primary location where this will be deployed')
 @allowed([
-  'centralus'
+  'eastus'
   'eastus2'
+  'westus'
+  'northcentralus'
+  'southcentralus'
+  'centralus'
+  'northeurope'
+  'westeurope'
+  'southeastasia'
+  'eastasia'
+  'australiaeast'
+  'australiasoutheast'
+  'brazilsouth'
+  'canadacentral'
+  'canadaeast'
+  'centralindia'
+  'japaneast'
+  'japanwest'
+  'koreacentral'
+  'koreasouth'
+  'southindia'
+  'westindia'
+  'uksouth'
+  'ukwest'
+  'westcentralus'
+  'westus2'
 ])
-param location string = 'centralus'
+param location string = 'westus2'
 
 @description('Array of Azure Location configurations that this Azure Container Registry should replicate to.')
 param replicationLocations replicationLocation[] = []

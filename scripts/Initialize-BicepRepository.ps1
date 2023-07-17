@@ -35,7 +35,7 @@ param (
 
 begin {
     $ErrorActionPreference = 'Stop'
-    $Location = 'centralus'
+    $Location = 'westus2'
     $AzureResourceGroup = Get-AzResource -Name $ResourceGroupName
     if (-not ($AzureResourceGroup)) {
         New-AzResourceGroup -Name $ResourceGroupName -Location $Location
